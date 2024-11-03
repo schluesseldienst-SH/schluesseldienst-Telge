@@ -1,0 +1,775 @@
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/js/components/_responsive-concrete-image.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/js/components/_responsive-concrete-image.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/**
+ * Responsive Image Component for use with concrete CMS Thumbnail system
+ *
+ * @property {object} availableThumbnails A Object containing the thumbnails that are available for a certain image
+ * @example
+ * //use with helper from mesch postinstaller like this:
+ * :available-thumbnails='<?=\Mesch\Helpers\DynamicThumbnail::getAvailableThumbnails($f->getApprovedVersion())?>'
+ * @property {string} src Original src of the original image. - Used as fallback.
+ * @property {string} aspectRatio Supply a aspect ratio to make sure the element is properly spaced and sized even if the image isn't loaded yet
+ * @property {string} alt Alternative Text for image Tag
+ * @property {string} title Title Text for image Tag
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "responsive-concrete-image",
+  props: {
+    availableThumbnails: Object,
+    src: String,
+    aspectRatio: String,
+    debug: {
+      type: Boolean,
+      "default": false
+    },
+    alt: String,
+    title: String
+  },
+  data: function data() {
+    return {
+      currentViewport: null,
+      height: null,
+      width: null,
+      breakpoints: {
+        xxl: 1400,
+        xl: 1200,
+        lg: 992,
+        md: 768,
+        sm: 576,
+        xs: 0
+      },
+      bestFit: false,
+      matchedThumbnails: {}
+    };
+  },
+  methods: {
+    determineViewport: function determineViewport() {
+      var w = window.innerWidth;
+      for (var _i = 0, _Object$entries = Object.entries(this.breakpoints); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+          key = _Object$entries$_i[0],
+          value = _Object$entries$_i[1];
+        if (w >= value) {
+          this.currentViewport = key;
+          return key;
+        }
+      }
+    },
+    determineSize: function determineSize() {
+      this.width = this.$el.clientWidth;
+      var ratio = eval(this.aspectRatio);
+      this.height = Math.round(this.width / ratio);
+      if (this.debug) console.log({
+        msg: 'Determined size:',
+        width: this.width,
+        height: this.height
+      });
+    },
+    findBestFitting: function findBestFitting() {
+      var match = false;
+      var dbl = false;
+      var availableThumbnailsArr = Object.values(this.availableThumbnails);
+      for (var i = 0; i < availableThumbnailsArr.length; i++) {
+        var thumb = availableThumbnailsArr[i];
+        if (thumb['type'].includes('_2x')) continue;
+        if (this.debug) console.log({
+          msg: 'evaluating thumb:',
+          targetWidth: this.width,
+          width: thumb.width,
+          type: thumb.type,
+          ratio1: eval(this.aspectRatio),
+          ratio2: thumb.aspect
+        });
+        if (thumb.height == this.height && thumb.width == this.width || thumb.width >= this.width && eval(this.aspectRatio) == eval(thumb.aspect)) {
+          match = thumb;
+          break;
+        }
+      }
+      ;
+      for (var _i2 = 0; _i2 < availableThumbnailsArr.length; _i2++) {
+        var _thumb = availableThumbnailsArr[_i2];
+        if (_thumb.type.includes('_2x')) continue;
+        if (this.debug) console.log({
+          msg: 'evaluating thumb:',
+          targetWidth: this.width,
+          width: _thumb.width,
+          type: _thumb.type,
+          ratio: _thumb.aspect
+        });
+        if (_thumb.width >= this.width) {
+          match = _thumb;
+          break;
+        }
+      }
+      ;
+      if (match) {
+        this.bestFit = match;
+        if (this.debug) console.log({
+          msg: 'best Image detected:',
+          targetWidth: this.width,
+          typeWidth: match.width,
+          type: match.type
+        });
+        dbl = availableThumbnailsArr.find(function (e) {
+          return e.type == match.type + '_2x';
+        });
+        if (dbl) {
+          if (this.debug) console.log({
+            msg: 'highRes Image for current detected:',
+            targetWidth: this.width,
+            typeWidth: dbl.width,
+            type: dbl.type
+          });
+        }
+        var newEntry = {
+          viewport: this.currentViewport,
+          type: match.type,
+          base: match.path,
+          "double": dbl ? dbl.path : false
+        };
+        if (!this.matchedThumbnails[this.currentViewport]) {
+          this.matchedThumbnails[this.currentViewport] = newEntry;
+        }
+      }
+      return;
+    },
+    constructMediaQuery: function constructMediaQuery(viewport) {
+      var width = this.breakpoints[viewport];
+      if (width === 0) return null;
+      return '(min-width: ' + width + 'px)';
+    },
+    constructSrcSet: function constructSrcSet(thumb) {
+      if (thumb["double"]) {
+        return thumb["double"] + ' 2x,' + thumb.base + ' 1x';
+      }
+      return thumb.base + ' 1x';
+    },
+    updateLoaded: function updateLoaded() {
+      if (this.$el.classList.contains('loaded')) {
+        var imageElements = Array.from(this.$el.children).filter(function (el) {
+          return el.nodeName === "IMG" || el.nodeName === "SOURCE";
+        });
+        if (imageElements.length > 0) imageElements.forEach(function (imageElement) {
+          if (imageElement.dataset.src) imageElement.src = imageElement.dataset.src;
+          if (imageElement.dataset.srcset) imageElement.srcset = imageElement.dataset.srcset;
+        });
+      }
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.determineViewport();
+    });
+  },
+  watch: {
+    currentViewport: function currentViewport(newVal, oldVal) {
+      var _this2 = this;
+      if (newVal != oldVal) {
+        this.determineSize();
+        this.findBestFitting();
+        this.$nextTick(function () {
+          _this2.updateLoaded();
+        });
+      }
+    }
+  },
+  created: function created() {
+    window.addEventListener("resize", this.determineViewport);
+  },
+  destroyed: function destroyed() {
+    window.removeEventListener("resize", this.determineViewport);
+  },
+  computed: {
+    pictureStyle: function pictureStyle() {
+      return 'aspect-ratio:' + this.aspectRatio;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/js/components/_responsive-concrete-image.vue?vue&type=template&id=1992be0e&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/js/components/_responsive-concrete-image.vue?vue&type=template&id=1992be0e& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _vm.src ? _c("picture", {
+    directives: [{
+      name: "lazyload",
+      rawName: "v-lazyload"
+    }],
+    staticClass: "responsive-concrete-image",
+    staticStyle: {
+      display: "block"
+    },
+    style: {
+      width: _vm.width,
+      height: _vm.height
+    }
+  }, [_vm._l(_vm.matchedThumbnails, function (thumb) {
+    return thumb.base ? _c("source", {
+      attrs: {
+        media: _vm.constructMediaQuery(thumb.viewport),
+        "data-srcset": _vm.constructSrcSet(thumb)
+      }
+    }) : _vm._e();
+  }), _vm._v(" "), _c("img", {
+    staticClass: "img-fluid",
+    style: _vm.pictureStyle,
+    attrs: {
+      "data-src": _vm.src,
+      title: _vm.title,
+      alt: _vm.alt,
+      "data-thumbnail-type": _vm.bestFit.type
+    }
+  })], 2) : _c("p", {
+    staticClass: "alert alert-danger small"
+  }, [_vm._v("Img not found")]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./src/js/components/lazy-load-directive.js":
+/*!**************************************************!*\
+  !*** ./src/js/components/lazy-load-directive.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  inserted: function inserted(el) {
+    function loadImage() {
+      var imageElements = Array.from(el.children).filter(function (el) {
+        return el.nodeName === "IMG" || el.nodeName === "SOURCE";
+      });
+      if (imageElements.length > 0) imageElements.forEach(function (imageElement) {
+        imageElement.addEventListener("load", function () {
+          setTimeout(function () {
+            return el.classList.add("loaded");
+          }, 100);
+        });
+        imageElement.addEventListener("error", function () {
+          return console.log("error");
+        });
+        if (imageElement.dataset.src) imageElement.src = imageElement.dataset.src;
+        if (imageElement.dataset.srcset) imageElement.srcset = imageElement.dataset.srcset;
+      });
+    }
+    function handleIntersect(entries, observer) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          loadImage();
+          observer.unobserve(el);
+        }
+      });
+    }
+    function createObserver() {
+      var options = {
+        root: null,
+        threshold: "0"
+      };
+      var observer = new IntersectionObserver(handleIntersect, options);
+      observer.observe(el);
+    }
+    if (window["IntersectionObserver"]) {
+      createObserver();
+    } else {
+      loadImage();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./src/js/components/navbar.js":
+/*!*************************************!*\
+  !*** ./src/js/components/navbar.js ***!
+  \*************************************/
+/***/ (() => {
+
+// Update navbar classes when navbar is toggled or scrolled
+//
+document.addEventListener("DOMContentLoaded", function (event) {
+  var navbar = document.getElementsByClassName('navbar-light')[0];
+  var page = document.getElementsByTagName('html')[0];
+  if (navbar) {
+    document.addEventListener('show.bs.collapse', function () {
+      var navbar = document.getElementsByClassName('navbar-light')[0];
+      var navbarHeight = navbar.getBoundingClientRect().height;
+      document.documentElement.style.setProperty('--m-navbar-header-height', navbarHeight + 'px');
+      navbar.classList.add('open');
+      page.classList.add('scroll-lock');
+    });
+    document.addEventListener('hide.bs.collapse', function () {
+      var navbar = document.getElementsByClassName('navbar-light')[0];
+      navbar.classList.remove('open');
+      page.classList.remove('scroll-lock');
+    });
+    updateNavbarClasses();
+    window.addEventListener('scroll', updateNavbarClasses);
+  }
+});
+function updateNavbarClasses() {
+  var offsetStart = 0;
+  var offsetEnd = 0;
+  var scrollPos = window.pageYOffset - offsetStart;
+  var navbar = document.getElementsByClassName('navbar-light')[0];
+  document.documentElement.style.setProperty('--m-scroll', (window.pageYOffset - offsetStart) / (document.body.offsetHeight - offsetStart - offsetEnd - window.innerHeight));
+  document.documentElement.style.setProperty('--m-scroll-y', scrollPos);
+  if (scrollPos > 0) {
+    if (navbar.classList.contains('on-top')) {
+      navbar.classList.remove('on-top');
+    }
+  } else {
+    if (!navbar.classList.contains('on-top')) {
+      navbar.classList.add('on-top');
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./src/js/components/scroll-down.js":
+/*!******************************************!*\
+  !*** ./src/js/components/scroll-down.js ***!
+  \******************************************/
+/***/ (() => {
+
+window.addEventListener('load', function () {
+  var scrollDownBtn = document.querySelector('html body header #scroll-down-button');
+  if (scrollDownBtn) {
+    scrollDownBtn.addEventListener('click', function (e) {
+      window.scrollBy(0, window.innerHeight - window.scrollY);
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./src/js/main.js":
+/*!************************!*\
+  !*** ./src/js/main.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_scroll_down__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/scroll-down */ "./src/js/components/scroll-down.js");
+/* harmony import */ var _components_scroll_down__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_components_scroll_down__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/navbar */ "./src/js/components/navbar.js");
+/* harmony import */ var _components_navbar__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_navbar__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_lazy_load_directive_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/lazy-load-directive.js */ "./src/js/components/lazy-load-directive.js");
+/* harmony import */ var _components_responsive_concrete_image_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/_responsive-concrete-image.vue */ "./src/js/components/_responsive-concrete-image.vue");
+
+
+Vue.config.devtools = true;
+
+// vue directives
+
+Vue.directive('lazyload', _components_lazy_load_directive_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
+// vue components
+
+Vue.component('responsive-concrete-image', _components_responsive_concrete_image_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+
+/***/ }),
+
+/***/ "./src/scss/presets/default/main.scss":
+/*!********************************************!*\
+  !*** ./src/scss/presets/default/main.scss ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/js/components/_responsive-concrete-image.vue":
+/*!**********************************************************!*\
+  !*** ./src/js/components/_responsive-concrete-image.vue ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _responsive_concrete_image_vue_vue_type_template_id_1992be0e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_responsive-concrete-image.vue?vue&type=template&id=1992be0e& */ "./src/js/components/_responsive-concrete-image.vue?vue&type=template&id=1992be0e&");
+/* harmony import */ var _responsive_concrete_image_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_responsive-concrete-image.vue?vue&type=script&lang=js& */ "./src/js/components/_responsive-concrete-image.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _responsive_concrete_image_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _responsive_concrete_image_vue_vue_type_template_id_1992be0e___WEBPACK_IMPORTED_MODULE_0__.render,
+  _responsive_concrete_image_vue_vue_type_template_id_1992be0e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "src/js/components/_responsive-concrete-image.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./src/js/components/_responsive-concrete-image.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./src/js/components/_responsive-concrete-image.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_responsive_concrete_image_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./_responsive-concrete-image.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/js/components/_responsive-concrete-image.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_responsive_concrete_image_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./src/js/components/_responsive-concrete-image.vue?vue&type=template&id=1992be0e&":
+/*!*****************************************************************************************!*\
+  !*** ./src/js/components/_responsive-concrete-image.vue?vue&type=template&id=1992be0e& ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_responsive_concrete_image_vue_vue_type_template_id_1992be0e___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_responsive_concrete_image_vue_vue_type_template_id_1992be0e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_responsive_concrete_image_vue_vue_type_template_id_1992be0e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./_responsive-concrete-image.vue?vue&type=template&id=1992be0e& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/js/components/_responsive-concrete-image.vue?vue&type=template&id=1992be0e&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ normalizeComponent)
+/* harmony export */ });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent(
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */,
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options =
+    typeof scriptExports === 'function' ? scriptExports.options : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) {
+    // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () {
+          injectStyles.call(
+            this,
+            (options.functional ? this.parent : this).$root.$options.shadowRoot
+          )
+        }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functional component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"/js/main": 0,
+/******/ 			"css/skins/default": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunkroesch_schliesstechnik"] = self["webpackChunkroesch_schliesstechnik"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	__webpack_require__.O(undefined, ["css/skins/default"], () => (__webpack_require__("./src/js/main.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/skins/default"], () => (__webpack_require__("./src/scss/presets/default/main.scss")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
